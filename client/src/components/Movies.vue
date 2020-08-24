@@ -289,7 +289,7 @@ export default {
       message: '',
       showMessage: false,
       editForm: {
-        id: '',
+        film_id: '',
         week: '',
         title: '',
         director: '',
@@ -338,7 +338,7 @@ export default {
       this.addMovieForm.shanRating = '';
       this.addMovieForm.cheRating = '';
       this.addMovieForm.andhiRating = '';
-      this.editForm.id = '';
+      this.editForm.film_id = '';
       this.editForm.week = '';
       this.editForm.title = '';
       this.editForm.director = '';
@@ -412,7 +412,7 @@ export default {
         andhiRating: aRating,
         avgRating: avg,
       };
-      this.updateMovie(payload, this.editForm.id);
+      this.updateMovie(payload, this.editForm.film_id);
     },
     updateMovie(payload, movieID) {
       const path = `http://localhost:5000/movies/${movieID}`;
@@ -451,7 +451,7 @@ export default {
         });
     },
     onDeleteMovie(movie) {
-      this.removeMovie(movie.id);
+      this.removeMovie(movie.film_id);
     },
     dateDisabled(ymd, date) {
       // Disable weekends (Sunday = `0`, Saturday = `6`) and
