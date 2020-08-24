@@ -361,6 +361,7 @@ export default {
     onSubmitUpdate(evt) {
       evt.preventDefault();
       this.$refs.editMovieModal.hide();
+      // test comment
       // let read = false;
       // if (this.editForm.read[0]) read = true;
       const payload = {
