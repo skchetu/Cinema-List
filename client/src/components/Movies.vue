@@ -15,7 +15,7 @@
         <table class="table table-hover table-striped">
           <thead>
             <tr>
-              <th scope="col">Week</th>
+              <th scope="col">Week of...</th>
               <th scope="col">Title</th>
               <th scope="col">Director(s)</th>
               <th scope="col">S</th>
@@ -270,6 +270,7 @@
 
 <script>
 import axios from 'axios';
+import moment from 'moment';
 import Alert from './Alert.vue';
 
 export default {
@@ -349,6 +350,7 @@ export default {
       evt.preventDefault();
       this.$refs.addMovieModal.hide();
 
+      const weekFormatted = moment(this.addMovieForm.week).format('MMM Do, YYYY');
       const sRating = this.addMovieForm.shanRating
         ? this.addMovieForm.shanRating
         : '0';
@@ -362,7 +364,7 @@ export default {
         + parseFloat(aRating)) / 3).toFixed(2);
 
       const payload = {
-        week: this.addMovieForm.week,
+        week: weekFormatted,
         title: this.addMovieForm.title,
         director: this.addMovieForm.director,
         shanRating: sRating,
@@ -388,6 +390,7 @@ export default {
       // let read = false;
       // if (this.editForm.read[0]) read = true;
 
+      const weekFormatted = moment(this.editForm.week).format('MMM Do, YYYY');
       const sRating = this.editForm.shanRating
         ? this.editForm.shanRating
         : '0';
@@ -401,7 +404,7 @@ export default {
         + parseFloat(aRating)) / 3).toFixed(2);
 
       const payload = {
-        week: this.editForm.week,
+        week: weekFormatted,
         title: this.editForm.title,
         director: this.editForm.director,
         shanRating: sRating,
@@ -449,6 +452,14 @@ export default {
     },
     onDeleteMovie(movie) {
       this.removeMovie(movie.id);
+    },
+    dateDisabled(ymd, date) {
+      // Disable weekends (Sunday = `0`, Saturday = `6`) and
+      // disable days that fall on the 13th of the month
+      const weekday = date.getDay();
+      const day = date.getDate();
+      // Return `true` if the date should be disabled
+      return weekday === 0 || weekday === 6 || day === 13;
     },
   },
   created() {
