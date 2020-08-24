@@ -335,7 +335,8 @@ export default {
       const aRating = this.addMovieForm.andhiRating
         ? this.addMovieForm.andhiRating
         : '0';
-      const avg = (parseFloat(sRating) + parseFloat(cRating) + parseFloat(aRating) / 3).toFixed(2);
+      const avg = ((parseFloat(sRating) + parseFloat(cRating)
+        + parseFloat(aRating)) / 3).toFixed(2);
 
       const payload = {
         week: this.addMovieForm.week,
