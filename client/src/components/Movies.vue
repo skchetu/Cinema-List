@@ -7,10 +7,12 @@
         <br />
         <br />
         <alert :message="message" v-if="showMessage"></alert>
-        <button type="button" class="btn btn-success btn-sm" v-b-modal.movie-modal>Add</button>
+        <button type="button" class="btn btn-dark btn-sm" v-b-modal.movie-modal>
+          <font-awesome-icon icon="plus"></font-awesome-icon>
+        </button>
         <br />
         <br />
-        <table class="table table-hover">
+        <table class="table table-hover table-striped">
           <thead>
             <tr>
               <th scope="col">Week</th>
@@ -36,15 +38,15 @@
                 <div class="btn-group" role="group">
                   <button
                     type="button"
-                    class="btn btn-warning btn-sm"
+                    class="btn btn-outline-dark btn-sm"
                     v-b-modal.movie-update-modal
                     @click="editMovie(movie)"
-                  >Update</button>
+                  ><font-awesome-icon icon="pen"></font-awesome-icon></button>
                   <button
                     type="button"
-                    class="btn btn-danger btn-sm"
+                    class="btn btn-dark btn-sm"
                     @click="onDeleteMovie(movie)"
-                  >Delete</button>
+                  ><font-awesome-icon icon="trash"></font-awesome-icon></button>
                 </div>
               </td>
             </tr>
@@ -281,7 +283,7 @@ export default {
   },
   methods: {
     getMovies() {
-      const path = '/movies';
+      const path = 'http://localhost:5000/movies';
       axios
         .get(path)
         .then((res) => {
@@ -293,7 +295,7 @@ export default {
         });
     },
     addMovie(payload) {
-      const path = '/movies';
+      const path = 'http://localhost:5000/movies';
       axios
         .post(path, payload)
         .then(() => {
@@ -364,18 +366,32 @@ export default {
       // test comment
       // let read = false;
       // if (this.editForm.read[0]) read = true;
+
+      const sRating = this.editForm.shanRating
+        ? this.editForm.shanRating
+        : '0';
+      const cRating = this.editForm.cheRating
+        ? this.editForm.cheRating
+        : '0';
+      const aRating = this.editForm.andhiRating
+        ? this.editForm.andhiRating
+        : '0';
+      const avg = ((parseFloat(sRating) + parseFloat(cRating)
+        + parseFloat(aRating)) / 3).toFixed(2);
+
       const payload = {
         week: this.editForm.week,
         title: this.editForm.title,
         director: this.editForm.director,
-        shanRating: this.editForm.shanRating,
-        cheRating: this.editForm.cheRating,
-        andhiRating: this.editForm.andhiRating,
+        shanRating: sRating,
+        cheRating: cRating,
+        andhiRating: aRating,
+        avgRating: avg,
       };
       this.updateMovie(payload, this.editForm.id);
     },
     updateMovie(payload, movieID) {
-      const path = `/movies/${movieID}`;
+      const path = `http://localhost:5000/movies/${movieID}`;
       axios
         .put(path, payload)
         .then(() => {
@@ -396,7 +412,7 @@ export default {
       this.getMovies(); // why?
     },
     removeMovie(movieID) {
-      const path = `/movies/${movieID}`;
+      const path = `http://localhost:5000/movies/${movieID}`;
       axios
         .delete(path)
         .then(() => {
