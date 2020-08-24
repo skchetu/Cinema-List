@@ -2,8 +2,7 @@
 node_modules
 /dist
 /server/env
-*.pyc
-*.pyo
+server/__pycache__/
 
 # local env files
 .env.local
