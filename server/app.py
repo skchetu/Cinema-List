@@ -8,18 +8,11 @@ from flask_sqlalchemy import SQLAlchemy
 # get the folder where this file runs
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-# configuration
-DATABASE = 'filminfo.db'
-DEBUG = True
-SECRET_KEY = 'bsaucehere'
-USERNAME = 'bsauce'
-PASSWORD = 'bottomtext'
-
-# define the full path for the database
-DATABASE_PATH = os.path.join(basedir, DATABASE)
-
 # database config
-SQLALCHEMY_DATABASE_URI = 'sqlite:///' + DATABASE_PATH
+SQLALCHEMY_DATABASE_URI = os.getenv(
+    'DATABASE_URL',
+    f'sqlite:///{os.path.join(basedir, "filminfo.db")}'
+)
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 # instantiate the app
@@ -33,7 +26,6 @@ CORS(app, resources={r'/*': {'origins': '*'}})
 import models
 
 def remove_movie(id):
-    print(id)
     try:
         db.session.query(models.FilmInfo).filter_by(film_id=id).delete()
         db.session.commit()
