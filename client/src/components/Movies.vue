@@ -341,9 +341,9 @@ export default {
         week: this.addMovieForm.week,
         title: this.addMovieForm.title,
         director: this.addMovieForm.director,
-        shanRating: this.addMovieForm.shanRating,
-        cheRating: this.addMovieForm.cheRating,
-        andhiRating: this.addMovieForm.andhiRating,
+        shanRating: sRating,
+        cheRating: cRating,
+        andhiRating: aRating,
         avgRating: avg,
       };
       this.addMovie(payload);
