@@ -89,7 +89,7 @@
         >
           <b-row>
             <b-col sm="1">
-              <div>{{ addMovieForm.shanRating }}</div>
+              <span class="range-value-color">{{ addMovieForm.shanRating }}</span>
             </b-col>
             <b-col sm="10">
               <b-form-input
@@ -112,7 +112,7 @@
         >
           <b-row>
             <b-col sm="1">
-              <div>{{ addMovieForm.cheRating }}</div>
+              <span class="range-value-color">{{ addMovieForm.cheRating }}</span>
             </b-col>
             <b-col sm="10">
               <b-form-input
@@ -135,7 +135,7 @@
         >
           <b-row>
             <b-col sm="1">
-              <div>{{ addMovieForm.andhiRating }}</div>
+              <span class="range-value-color">{{ addMovieForm.andhiRating }}</span>
             </b-col>
             <b-col sm="10">
               <b-form-input
@@ -152,8 +152,8 @@
           </b-row>
         </b-form-group>
         <b-button-group>
-          <b-button type="submit" variant="primary">Submit</b-button>
-          <b-button type="reset" variant="danger">Reset</b-button>
+          <b-button type="submit" variant="outline-dark">Submit</b-button>
+          <b-button type="reset" variant="dark">Reset</b-button>
         </b-button-group>
       </b-form>
     </b-modal>
@@ -195,52 +195,73 @@
           label="Shan's Rating:"
           label-for="form-shanRating-edit-input"
         >
-          <b-form-input
-            id="form-shanRating-edit-input"
-            type="range"
-            min="0"
-            max="10"
-            step="0.25"
-            v-model="editForm.shanRating"
-            required
-            placeholder="Enter rating"
-          ></b-form-input>
+          <b-row>
+            <b-col sm="1">
+              <span class="range-value-color">{{ editForm.shanRating }}</span>
+            </b-col>
+            <b-col sm="10">
+              <b-form-input
+                id="form-shanRating-edit-input"
+                type="range"
+                min="0"
+                max="10"
+                step="0.25"
+                v-model="editForm.shanRating"
+                required
+                placeholder="Enter rating"
+              ></b-form-input>
+            </b-col>
+          </b-row>
         </b-form-group>
         <b-form-group
           id="form-cheRating-edit-group"
           label="Che's Rating:"
           label-for="form-cheRating-edit-input"
         >
-          <b-form-input
-            id="form-cheRating-edit-input"
-            type="range"
-            min="0"
-            max="10"
-            step="0.25"
-            v-model="editForm.cheRating"
-            required
-            placeholder="Enter rating"
-          ></b-form-input>
+          <b-row>
+            <b-col sm="1">
+              <span class="range-value-color">{{ editForm.cheRating }}</span>
+            </b-col>
+            <b-col sm="10">
+              <b-form-input
+                id="form-cheRating-edit-input"
+                type="range"
+                min="0"
+                max="10"
+                step="0.25"
+                v-model="editForm.cheRating"
+                required
+                placeholder="Enter rating"
+              ></b-form-input>
+            </b-col>
+          </b-row>
         </b-form-group>
         <b-form-group
           id="form-andhiRating-edit-group"
           label="Andhi's Rating:"
           label-for="form-andhiRating-edit-input"
         >
-          <b-form-input
-            id="form-andhiRating-edit-input"
-            type="range"
-            min="0"
-            max="10"
-            step="0.25"
-            v-model="editForm.andhiRating"
-            required
-            placeholder="Enter rating"
-          ></b-form-input>
+          <b-row>
+            <b-col sm="1">
+              <span class="range-value-color">{{ editForm.andhiRating }}</span>
+            </b-col>
+            <b-col sm="10">
+              <b-form-input
+                id="form-andhiRating-edit-input"
+                type="range"
+                min="0"
+                max="10"
+                step="0.25"
+                v-model="editForm.andhiRating"
+                required
+                placeholder="Enter rating"
+              ></b-form-input>
+            </b-col>
+          </b-row>
         </b-form-group>
         <b-button-group>
-          <b-button type="submit" variant="primary">Update</b-button>
-          <b-button type="reset" variant="danger">Cancel</b-button>
+          <b-button type="submit" variant="outline-dark">Update</b-button>
+          <b-button type="reset" variant="dark">Cancel</b-button>
         </b-button-group>
       </b-form>
     </b-modal>
@@ -439,5 +460,14 @@ export default {
 <style>
 .modal-backdrop {
   background-color: rgba(0, 0, 0, 0.75) !important;
+}
+.custom-range::-webkit-slider-thumb {
+  background: #292b2c;
+}
+.custom-range::-webkit-slider-thumb:active {
+  background-color: gray;
+}
+span.range-value-color {
+  font-weight: 700;
 }
 </style>
