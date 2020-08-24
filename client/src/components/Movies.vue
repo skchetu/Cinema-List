@@ -1,0 +1,425 @@
+<template>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-10">
+        <h1>Film Ratings</h1>
+        <hr />
+        <br />
+        <br />
+        <alert :message="message" v-if="showMessage"></alert>
+        <button type="button" class="btn btn-success btn-sm" v-b-modal.movie-modal>Add</button>
+        <br />
+        <br />
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Week</th>
+              <th scope="col">Title</th>
+              <th scope="col">Director(s)</th>
+              <th scope="col">S</th>
+              <th scope="col">C</th>
+              <th scope="col">A</th>
+              <th scope="col">Avg</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(movie, index) in movies" :key="index">
+              <td>{{ movie.week }}</td>
+              <td>{{ movie.title }}</td>
+              <td>{{ movie.director }}</td>
+              <td>{{ movie.shanRating }}</td>
+              <td>{{ movie.cheRating }}</td>
+              <td>{{ movie.andhiRating }}</td>
+              <td>{{ movie.avgRating }}</td>
+              <td>
+                <div class="btn-group" role="group">
+                  <button
+                    type="button"
+                    class="btn btn-warning btn-sm"
+                    v-b-modal.movie-update-modal
+                    @click="editMovie(movie)"
+                  >Update</button>
+                  <button
+                    type="button"
+                    class="btn btn-danger btn-sm"
+                    @click="onDeleteMovie(movie)"
+                  >Delete</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <b-modal ref="addMovieModal" id="movie-modal" title="Add a new movie" hide-footer>
+      <b-form @submit="onSubmit" @reset="onReset" class="w-100">
+        <b-form-group id="form-week-group" label="Week of:" label-for="form-week-input">
+          <b-form-input
+            id="form-week-input"
+            type="date"
+            v-model="addMovieForm.week"
+            required
+            placeholder="Enter week"
+          ></b-form-input>
+        </b-form-group>
+        <b-form-group id="form-title-group" label="Title:" label-for="form-title-input">
+          <b-form-input
+            id="form-title-input"
+            type="text"
+            v-model="addMovieForm.title"
+            required
+            placeholder="Enter title"
+          ></b-form-input>
+        </b-form-group>
+        <b-form-group id="form-director-group" label="Director(s):" label-for="form-director-input">
+          <b-form-input
+            id="form-director-input"
+            type="text"
+            v-model="addMovieForm.director"
+            placeholder="Enter director(s)"
+          ></b-form-input>
+        </b-form-group>
+        <b-form-group
+          id="form-shanRating-group"
+          label="Shan's Rating:"
+          label-for="form-shanRating-input"
+        >
+          <b-row>
+            <b-col sm="1">
+              <div>{{ addMovieForm.shanRating }}</div>
+            </b-col>
+            <b-col sm="10">
+              <b-form-input
+                id="form-shanRating-input"
+                type="range"
+                min="0"
+                max="10"
+                step="0.25"
+                v-model="addMovieForm.shanRating"
+                required
+                placeholder="Enter rating"
+              ></b-form-input>
+            </b-col>
+          </b-row>
+        </b-form-group>
+        <b-form-group
+          id="form-cheRating-group"
+          label="Che's Rating:"
+          label-for="form-cheRating-input"
+        >
+          <b-row>
+            <b-col sm="1">
+              <div>{{ addMovieForm.cheRating }}</div>
+            </b-col>
+            <b-col sm="10">
+              <b-form-input
+                id="form-cheRating-input"
+                type="range"
+                min="0"
+                max="10"
+                step="0.25"
+                v-model="addMovieForm.cheRating"
+                required
+                placeholder="Enter rating"
+              ></b-form-input>
+            </b-col>
+          </b-row>
+        </b-form-group>
+        <b-form-group
+          id="form-andhiRating-group"
+          label="Andhi's Rating:"
+          label-for="form-andhiRating-input"
+        >
+          <b-row>
+            <b-col sm="1">
+              <div>{{ addMovieForm.andhiRating }}</div>
+            </b-col>
+            <b-col sm="10">
+              <b-form-input
+                id="form-andhiRating-input"
+                type="range"
+                min="0"
+                max="10"
+                step="0.25"
+                v-model="addMovieForm.andhiRating"
+                required
+                placeholder="Enter rating"
+              ></b-form-input>
+            </b-col>
+          </b-row>
+        </b-form-group>
+        <b-button-group>
+          <b-button type="submit" variant="primary">Submit</b-button>
+          <b-button type="reset" variant="danger">Reset</b-button>
+        </b-button-group>
+      </b-form>
+    </b-modal>
+    <b-modal ref="editMovieModal" id="movie-update-modal" title="Update" hide-footer>
+      <b-form @submit="onSubmitUpdate" @reset="onResetUpdate" class="w-100">
+        <b-form-group id="form-week-edit-group" label="Week of:" label-for="form-week-edit-input">
+          <b-form-input
+            id="form-week-edit-input"
+            type="date"
+            v-model="editForm.week"
+            required
+            placeholder="Enter week"
+          ></b-form-input>
+        </b-form-group>
+        <b-form-group id="form-title-edit-group" label="Title:" label-for="form-title-edit-input">
+          <b-form-input
+            id="form-title-edit-input"
+            type="text"
+            v-model="editForm.title"
+            required
+            placeholder="Enter title"
+          ></b-form-input>
+        </b-form-group>
+        <b-form-group
+          id="form-director-edit-group"
+          label="Director(s):"
+          label-for="form-director-edit-input"
+        >
+          <b-form-input
+            id="form-director-edit-input"
+            type="text"
+            v-model="editForm.director"
+            required
+            placeholder="Enter director"
+          ></b-form-input>
+        </b-form-group>
+        <b-form-group
+          id="form-shanRating-edit-group"
+          label="Shan's Rating:"
+          label-for="form-shanRating-edit-input"
+        >
+          <b-form-input
+            id="form-shanRating-edit-input"
+            type="range"
+            min="0"
+            max="10"
+            step="0.25"
+            v-model="editForm.shanRating"
+            required
+            placeholder="Enter rating"
+          ></b-form-input>
+        </b-form-group>
+        <b-form-group
+          id="form-cheRating-edit-group"
+          label="Che's Rating:"
+          label-for="form-cheRating-edit-input"
+        >
+          <b-form-input
+            id="form-cheRating-edit-input"
+            type="range"
+            min="0"
+            max="10"
+            step="0.25"
+            v-model="editForm.cheRating"
+            required
+            placeholder="Enter rating"
+          ></b-form-input>
+        </b-form-group>
+        <b-form-group
+          id="form-andhiRating-edit-group"
+          label="Andhi's Rating:"
+          label-for="form-andhiRating-edit-input"
+        >
+          <b-form-input
+            id="form-andhiRating-edit-input"
+            type="range"
+            min="0"
+            max="10"
+            step="0.25"
+            v-model="editForm.andhiRating"
+            required
+            placeholder="Enter rating"
+          ></b-form-input>
+        </b-form-group>
+        <b-button-group>
+          <b-button type="submit" variant="primary">Update</b-button>
+          <b-button type="reset" variant="danger">Cancel</b-button>
+        </b-button-group>
+      </b-form>
+    </b-modal>
+  </div>
+</template>
+
+<script>
+import axios from 'axios';
+import Alert from './Alert.vue';
+
+export default {
+  data() {
+    return {
+      movies: [],
+      addMovieForm: {
+        week: '',
+        title: '',
+        director: '',
+        shanRating: '',
+        cheRating: '',
+        andhiRating: '',
+        avgRaing: '',
+      },
+      message: '',
+      showMessage: false,
+      editForm: {
+        id: '',
+        week: '',
+        title: '',
+        director: '',
+        shanRating: '',
+        cheRating: '',
+        andhiRating: '',
+        avgRating: '',
+      },
+    };
+  },
+  components: {
+    alert: Alert,
+  },
+  methods: {
+    getMovies() {
+      const path = 'http://localhost:5000/movies';
+      axios
+        .get(path)
+        .then((res) => {
+          this.movies = res.data.movies;
+        })
+        .catch((error) => {
+          // eslint-disable-next-line
+          console.error(error);
+        });
+    },
+    addMovie(payload) {
+      const path = 'http://localhost:5000/movies';
+      axios
+        .post(path, payload)
+        .then(() => {
+          this.getMovies();
+          this.message = 'Movie added!';
+          this.showMessage = true;
+        })
+        .catch((error) => {
+          // eslint-disable-next-line
+          console.log(error);
+          this.getMovies();
+        });
+    },
+    initForm() {
+      this.addMovieForm.week = '';
+      this.addMovieForm.title = '';
+      this.addMovieForm.director = '';
+      this.addMovieForm.shanRating = '';
+      this.addMovieForm.cheRating = '';
+      this.addMovieForm.andhiRating = '';
+      this.editForm.id = '';
+      this.editForm.week = '';
+      this.editForm.title = '';
+      this.editForm.director = '';
+      this.editForm.shanRating = '';
+      this.editForm.cheRating = '';
+      this.editForm.andhiRating = '';
+    },
+    onSubmit(evt) {
+      evt.preventDefault();
+      this.$refs.addMovieModal.hide();
+
+      const sRating = this.addMovieForm.shanRating
+        ? this.addMovieForm.shanRating
+        : '0';
+      const cRating = this.addMovieForm.cheRating
+        ? this.addMovieForm.cheRating
+        : '0';
+      const aRating = this.addMovieForm.andhiRating
+        ? this.addMovieForm.andhiRating
+        : '0';
+      const avg = (parseFloat(sRating) + parseFloat(cRating) + parseFloat(aRating) / 3).toFixed(2);
+
+      const payload = {
+        week: this.addMovieForm.week,
+        title: this.addMovieForm.title,
+        director: this.addMovieForm.director,
+        shanRating: this.addMovieForm.shanRating,
+        cheRating: this.addMovieForm.cheRating,
+        andhiRating: this.addMovieForm.andhiRating,
+        avgRating: avg,
+      };
+      this.addMovie(payload);
+      this.initForm();
+    },
+    onReset(evt) {
+      evt.preventDefault();
+      this.$refs.addMovieModal.hide();
+      this.initForm();
+    },
+    editMovie(movie) {
+      this.editForm = movie;
+    },
+    onSubmitUpdate(evt) {
+      evt.preventDefault();
+      this.$refs.editMovieModal.hide();
+      // let read = false;
+      // if (this.editForm.read[0]) read = true;
+      const payload = {
+        week: this.editForm.week,
+        title: this.editForm.title,
+        director: this.editForm.director,
+        shanRating: this.editForm.shanRating,
+        cheRating: this.editForm.cheRating,
+        andhiRating: this.editForm.andhiRating,
+      };
+      this.updateMovie(payload, this.editForm.id);
+    },
+    updateMovie(payload, movieID) {
+      const path = `http://localhost:5000/movies/${movieID}`;
+      axios
+        .put(path, payload)
+        .then(() => {
+          this.getMovies();
+          this.message = 'Movie updated!';
+          this.showMessage = true;
+        })
+        .catch((error) => {
+          // eslint-disable-next-line
+          console.error(error);
+          this.getMovies();
+        });
+    },
+    onResetUpdate(evt) {
+      evt.preventDefault();
+      this.$refs.editMovieModal.hide();
+      this.initForm();
+      this.getMovies(); // why?
+    },
+    removeMovie(movieID) {
+      const path = `http://localhost:5000/movies/${movieID}`;
+      axios
+        .delete(path)
+        .then(() => {
+          this.getMovies();
+          this.message = 'Movie removed!';
+          this.showMessage = true;
+        })
+        .catch((error) => {
+          // eslint-disable-next-line
+          console.error(error);
+          this.getMovies();
+        });
+    },
+    onDeleteMovie(movie) {
+      this.removeMovie(movie.id);
+    },
+  },
+  created() {
+    this.getMovies();
+  },
+};
+</script>
+
+<style>
+.modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.75) !important;
+}
+</style>
