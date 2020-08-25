@@ -34,5 +34,6 @@ div.linkscontaienr {
 
 .links-card {
     max-width: 300px;
+    margin: auto;
 }
 </style>

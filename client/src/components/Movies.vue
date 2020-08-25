@@ -1,10 +1,10 @@
 <template>
   <div class="container">
     <div class="row">
-      <div class="col-lg-10">
+      <div class="col-lg-10 m-a">
         <div class="container">
           <div class="row">
-            <div class="col-sm-10">
+            <div class="col-sm-10 m-a">
               <h1>Film Ratings</h1>
               <hr />
               <br />
@@ -18,7 +18,7 @@
               <table class="table table-hover">
                 <thead>
                   <tr>
-                    <th scope="col">Week</th>
+                    <th scope="col">Week of...</th>
                     <th scope="col">Title</th>
                     <th scope="col">Director(s)</th>
                     <th scope="col">S</th>
@@ -276,7 +276,7 @@
           </b-modal>
         </div>
       </div>
-      <div class="col-lg-2">
+      <div class="col-lg-2 m-a">
         <quicklinks></quicklinks>
       </div>
     </div>
@@ -491,7 +491,7 @@ span.range-value-color {
   font-weight: 700;
 }
 
-div {
+.m-a {
   margin: auto;
 }
 </style>
