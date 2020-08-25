@@ -6,7 +6,7 @@
         <hr />
         <br />
         <br />
-        <alert :message="message" v-if="showMessage"></alert>
+        <alert :message="message" :showMessage="showMessage"></alert>
         <button type="button" class="btn btn-dark btn-sm" v-b-modal.movie-modal>
           <font-awesome-icon icon="plus"></font-awesome-icon>
         </button>
@@ -305,7 +305,7 @@ export default {
   },
   methods: {
     getMovies() {
-      const path = '/movies';
+      const path = 'http://localhost:5000/movies';
       axios
         .get(path)
         .then((res) => {
@@ -317,7 +317,7 @@ export default {
         });
     },
     addMovie(payload) {
-      const path = '/movies';
+      const path = 'http://localhost:5000/movies';
       axios
         .post(path, payload)
         .then(() => {
@@ -415,7 +415,7 @@ export default {
       this.updateMovie(payload, this.editForm.id);
     },
     updateMovie(payload, movieID) {
-      const path = `/movies/${movieID}`;
+      const path = `http://localhost:5000/movies/${movieID}`;
       axios
         .put(path, payload)
         .then(() => {
@@ -436,7 +436,7 @@ export default {
       this.getMovies(); // why?
     },
     removeMovie(movieID) {
-      const path = `/movies/${movieID}`;
+      const path = `http://localhost:5000/movies/${movieID}`;
       axios
         .delete(path)
         .then(() => {
