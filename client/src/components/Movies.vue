@@ -12,10 +12,10 @@
         </button>
         <br />
         <br />
-        <table class="table table-hover table-striped">
+        <table class="table table-hover">
           <thead>
             <tr>
-              <th scope="col">Week of...</th>
+              <th scope="col">Week</th>
               <th scope="col">Title</th>
               <th scope="col">Director(s)</th>
               <th scope="col">S</th>
@@ -289,7 +289,7 @@ export default {
       message: '',
       showMessage: false,
       editForm: {
-        film_id: '',
+        id: '',
         week: '',
         title: '',
         director: '',
@@ -338,7 +338,7 @@ export default {
       this.addMovieForm.shanRating = '';
       this.addMovieForm.cheRating = '';
       this.addMovieForm.andhiRating = '';
-      this.editForm.film_id = '';
+      this.editForm.id = '';
       this.editForm.week = '';
       this.editForm.title = '';
       this.editForm.director = '';
@@ -412,10 +412,10 @@ export default {
         andhiRating: aRating,
         avgRating: avg,
       };
-      this.updateMovie(payload, this.editForm.film_id);
+      this.updateMovie(payload, this.editForm.id);
     },
     updateMovie(payload, movieID) {
-      const path = `/${movieID}`;
+      const path = `/movies/${movieID}`;
       axios
         .put(path, payload)
         .then(() => {
@@ -436,7 +436,7 @@ export default {
       this.getMovies(); // why?
     },
     removeMovie(movieID) {
-      const path = `/${movieID}`;
+      const path = `/movies/${movieID}`;
       axios
         .delete(path)
         .then(() => {
@@ -451,15 +451,7 @@ export default {
         });
     },
     onDeleteMovie(movie) {
-      this.removeMovie(movie.film_id);
-    },
-    dateDisabled(ymd, date) {
-      // Disable weekends (Sunday = `0`, Saturday = `6`) and
-      // disable days that fall on the 13th of the month
-      const weekday = date.getDay();
-      const day = date.getDate();
-      // Return `true` if the date should be disabled
-      return weekday === 0 || weekday === 6 || day === 13;
+      this.removeMovie(movie.id);
     },
   },
   created() {
