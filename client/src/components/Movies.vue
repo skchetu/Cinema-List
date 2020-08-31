@@ -57,6 +57,44 @@
               </table>
             </div>
           </div>
+          <v-card>
+            <v-card-title>
+              Ratings
+              <v-btn color="primary"
+                      dark
+                      class="mb-2"
+                      v-bind="attrs"
+                      v-on="on"
+                    ><font-awesome-icon icon="plus"></font-awesome-icon></v-btn>
+            </v-card-title>
+            <v-data-table
+              :headers="headers"
+              :items="movies"
+              :search="search"
+              hide-default-footer
+            ></v-data-table>
+          </v-card>
+          <!-- <datatable :headers="headers" :items="movies" :search="search"></datatable> -->
+          <br/>
+          <v-card>
+            <v-card-title>
+              Ratings
+              <v-btn color="primary"
+                      dark
+                      class="mb-2"
+                      v-bind="attrs"
+                      v-on="on"
+                    ><font-awesome-icon icon="plus"></font-awesome-icon></v-btn>
+            </v-card-title>
+            <v-data-table
+              :headers="headers"
+              :items="movies"
+              :search="search"
+              hide-default-footer
+            >
+              <template v-slot:[`item.action`]="{{ item }}">
+            </v-data-table>
+          </v-card>
           <b-modal ref="addMovieModal" id="movie-modal" title="Add a new movie" hide-footer>
             <b-form @submit="onSubmit" @reset="onReset" class="w-100">
               <b-form-group id="form-week-group" label="Week of:" label-for="form-week-input">
@@ -292,6 +330,103 @@ import QuickLinks from './QuickLinks.vue';
 export default {
   data() {
     return {
+      search: '',
+      headers: [
+        {
+          text: 'Title',
+          align: 'start',
+          value: 'title',
+        },
+        { text: 'Director(s)', value: 'director' },
+        { text: 'Watch Week', value: 'week' },
+        { text: 'Shantanu\'s', value: 'shanRating' },
+        { text: 'Chetu\'s', value: 'cheRating' },
+        { text: 'Andhi\'s', value: 'andhiRating' },
+        { text: 'AVG', value: 'avgRating' },
+        { text: 'Actions' },
+      ],
+      desserts: [
+        {
+          name: 'Frozen Yogurt',
+          calories: 159,
+          fat: 6.0,
+          carbs: 24,
+          protein: 4.0,
+          iron: '1%',
+        },
+        {
+          name: 'Ice cream sandwich',
+          calories: 237,
+          fat: 9.0,
+          carbs: 37,
+          protein: 4.3,
+          iron: '1%',
+        },
+        {
+          name: 'Eclair',
+          calories: 262,
+          fat: 16.0,
+          carbs: 23,
+          protein: 6.0,
+          iron: '7%',
+        },
+        {
+          name: 'Cupcake',
+          calories: 305,
+          fat: 3.7,
+          carbs: 67,
+          protein: 4.3,
+          iron: '8%',
+        },
+        {
+          name: 'Gingerbread',
+          calories: 356,
+          fat: 16.0,
+          carbs: 49,
+          protein: 3.9,
+          iron: '16%',
+        },
+        {
+          name: 'Jelly bean',
+          calories: 375,
+          fat: 0.0,
+          carbs: 94,
+          protein: 0.0,
+          iron: '0%',
+        },
+        {
+          name: 'Lollipop',
+          calories: 392,
+          fat: 0.2,
+          carbs: 98,
+          protein: 0,
+          iron: '2%',
+        },
+        {
+          name: 'Honeycomb',
+          calories: 408,
+          fat: 3.2,
+          carbs: 87,
+          protein: 6.5,
+          iron: '45%',
+        },
+        {
+          name: 'Donut',
+          calories: 452,
+          fat: 25.0,
+          carbs: 51,
+          protein: 4.9,
+          iron: '22%',
+        },
+        {
+          name: 'KitKat',
+          calories: 518,
+          fat: 26.0,
+          carbs: 65,
+          protein: 7,
+          iron: '6%',
+        },
+      ],
       movies: [],
       addMovieForm: {
         week: '',
